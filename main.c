@@ -11,7 +11,7 @@
 int main()
 {
     
-    int subArray(int array[10]);
+    int subArray(int array[]);
     int find_biggestArray(int sumsubarray[10][10]);
     
     int a[10]={-2,11,-4,13,-5,2,-5,-3,12,-9},maxSubArray;
@@ -26,13 +26,13 @@ int main()
 
 int subArray(int array[10])
 {
-    int z[9][9],i,j,max;
-    for (j=0; j<10; j++) {
-        for (i=0; i<10-j; i++) {
-            if (j==0) {
-                z[j][i]=array[i+j];
-            }
-            else z[j][i]=z[j-1][i]+array[i+j];
+    int z[10][10]={0},i,j,max;
+    for (i=0; i<10; i++) {
+        z[0][i]=array[i];
+    }
+    for (j=1; j<10; j++) {
+        for (i=0; i<=10-j; i++) {
+            z[j][i]=z[j-1][i]+array[i+j];
         }
     }
     max=find_biggestArray(z);
@@ -43,24 +43,16 @@ int subArray(int array[10])
 
 int find_biggestArray(int sumsubarray[10][10])
 {
-    int i,j,t;
-    for (j=0; j<10; j++) {
-        for (i=0; i<10; i++) {
-            if (sumsubarray[i][j]>sumsubarray[i-1][j]) {
-                t=sumsubarray[i][j];
-                sumsubarray[i][j]=sumsubarray[i-1][j];
-                sumsubarray[i-1][j]=t;
+    int i,j,biggest=sumsubarray[0][0];
+    for (i=0; i<10; i++) {
+        for (j=0; j<10; j++) {
+            if (sumsubarray[i][j]>=biggest) {
+                biggest=sumsubarray[i][j];
+                
             }
         }
     }
-    for (j=0; j<10; j++) {
-        if (sumsubarray[0][j]>sumsubarray[0][j-1]) {
-            t=sumsubarray[0][j];
-            sumsubarray[0][j]=sumsubarray[0][j-1];
-            sumsubarray[0][j-1]=t;
-        }
-    }
-    return sumsubarray[0][0];
+    return biggest;
 }
 
 
