@@ -11,12 +11,12 @@
 int main()
 {
     
-    int subArray(int array[]);
-    int find_biggestArray(int sumsubarray[10][10]);
+    int max(int a,int b);
+    int find_biggestArray(int *B,int k);
     
     int a[10]={-2,11,-4,13,-5,2,-5,-3,12,-9},maxSubArray;
     
-    maxSubArray=subArray(a);
+    maxSubArray=find_biggestArray(a,10);
     printf("the max subarray is %d",maxSubArray);
     
     
@@ -24,36 +24,20 @@ int main()
 
 
 
-int subArray(int array[10])
+int max(int a,int b)  //取大数
 {
-    int z[10][10]={0},i,j,max;
-    for (i=0; i<10; i++) {
-        z[0][i]=array[i];
-    }
-    for (j=1; j<10; j++) {
-        for (i=0; i<=10-j; i++) {
-            z[j][i]=z[j-1][i]+array[i+j];
-        }
-    }
-    max=find_biggestArray(z);
-    return max;
-    
+    return (a>b?a:b);
 }
-
-
-int find_biggestArray(int sumsubarray[10][10])
+int find_biggestArray(int *B,int k)
 {
-    int i,j,biggest=sumsubarray[0][0];
-    for (i=0; i<10; i++) {
-        for (j=0; j<10; j++) {
-            if (sumsubarray[i][j]>=biggest) {
-                biggest=sumsubarray[i][j];
-                
-            }
-        }
+    int m=0,n;//m存储：到B[i[结束的最大子数组和
+    //n存储B[i]之前的最大数组和，可能包括B[i]，也可能不包括
+    int i;
+    n=B[0];
+    for(i=1;i<k;i++)
+    {
+        m=max(B[i],m+B[i]);
+        n=max(n,m);
     }
-    return biggest;
+    return n;
 }
-
-
-
